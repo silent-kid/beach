@@ -22,10 +22,13 @@ formatData(itemArr){
     let tempItems = itemArr.map(item =>{
         let id = item.sys.id
         // console.log(items.sys);
-        console.log(itemArr.fields);
-        itemArr.fields.images.map( (x)=>url.push(x.fields.file.url));
+        console.log(item.fields);
+        let images = item.fields.images.map(x => 
+          x.fields.file.url
+        )
+        // console.log(images)
 
-        let room = {...item.fields, url, id}
+        let room = {...item.fields,images, id}
         return room;
     });
     return tempItems;
