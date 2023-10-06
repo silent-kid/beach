@@ -13,6 +13,7 @@ export default class RoomProvider extends Component {
 
   componentDidMount() {
     let rooms = this.formatData(itemArr);
+
     // console.log(rooms);
     let featuredRooms = rooms.filter((room) => room.featured === true);
     this.setState({
@@ -32,6 +33,22 @@ export default class RoomProvider extends Component {
 
       let room = { ...item.fields, images, id };
       return room;
+
+    console.log(rooms);
+}
+formatData(itemArr){
+    let tempItems = itemArr.map(item =>{
+        let id = item.sys.id
+        // console.log(items.sys);
+        console.log(item.fields);
+        let images = item.fields.images.map(x => 
+          x.fields.file.url
+        )
+        // console.log(images)
+
+        let room = {...item.fields,images, id}
+        return room;
+
     });
     return tempItems;
   }
