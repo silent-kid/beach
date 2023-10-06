@@ -1,21 +1,39 @@
-import React, { Component } from 'react'
-import itemArr from './data';
+import React, { Component } from "react";
+import itemArr from "./data";
 
-const RoomContext=React.createContext();
-
-
-let url=[];
+const RoomContext = React.createContext();
 
 export default class RoomProvider extends Component {
-    state = {
-        rooms:[],
-        sortedRooms:[],
-        featuredRooms:[],
-        loading:true
-    };
+  state = {
+    rooms: [],
+    sortedRooms: [],
+    featuredRooms: [],
+    loading: true,
+  };
 
-componentDidMount(){
+  componentDidMount() {
     let rooms = this.formatData(itemArr);
+
+    // console.log(rooms);
+    let featuredRooms = rooms.filter((room) => room.featured === true);
+    this.setState({
+      rooms,
+      featuredRooms,
+      sortedRooms: rooms,
+      loading: false,
+    });
+  }
+  formatData(itemArr) {
+    let tempItems = itemArr.map((item) => {
+      let id = item.sys.id;
+      // console.log(items.sys);
+      // console.log(item.fields);
+      let images = item.fields.images.map((x) => x.fields.file.url);
+      // console.log(images)
+
+      let room = { ...item.fields, images, id };
+      return room;
+
     console.log(rooms);
 }
 formatData(itemArr){
@@ -30,18 +48,17 @@ formatData(itemArr){
 
         let room = {...item.fields,images, id}
         return room;
+
     });
     return tempItems;
-}
+  }
 
   render() {
     return (
-      <RoomContext.Provider value={{...this.state}}>
-        {
-            this.props.children
-        }
+      <RoomContext.Provider value={{ ...this.state }}>
+        {this.props.children}
       </RoomContext.Provider>
-    )
+    );
   }
 }
 const RoomConsumer = RoomContext.Consumer;
